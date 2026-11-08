@@ -5,6 +5,7 @@ globalThis.runCatalogTests=async function(){
  const source=document.querySelector('#source');source.scrollIntoView({block:'start',behavior:'instant'});window.scrollBy({top:-80,behavior:'instant'});
  document.querySelector('[data-book-reader=entry]').shadowRoot.querySelector('.launch').click();await wait();let root=active();
  root.querySelector('[data-action=immersive]').click();await wait();
+ root.querySelector('[data-action=catalog]').click();
  const current=root.querySelector('.book-title[aria-current=page]').closest('.book-node');
  check('统一目录包含会话、轮次、Markdown标题三级',current.dataset.depth==='1'&&!!current.querySelector('[data-depth="2"] [data-depth="3"]'));
  check('每一轮使用对应用户问题作为标题',current.querySelectorAll('.round-node').length===2&&current.querySelector('.round-title').textContent.includes('请写一篇')&&[...current.querySelectorAll('.round-title')][1].textContent.includes('另一条回答'));
@@ -18,10 +19,10 @@ globalThis.runCatalogTests=async function(){
  const position=root.querySelector('.position').textContent;current.querySelector('.tree-toggle').click();
  check('折叠会话不改变当前阅读页',root.querySelector('.position').textContent===position&&root.querySelector('.book-title[aria-current=page]').closest('.book-node').querySelector('.round-list').hidden);
  root.querySelector('.book-title[aria-current=page]').closest('.book-node').querySelector('.tree-toggle').click();
- const second=[...root.querySelector('.book-title[aria-current=page]').closest('.book-node').querySelectorAll('.round-title')][1];second.click();await wait();root=active();
+ const second=[...root.querySelector('.book-title[aria-current=page]').closest('.book-node').querySelectorAll('.round-title')][1];second.click();await wait();root=active();if(root.querySelector('.catalog').hidden)root.querySelector('[data-action=catalog]').click();
  check('点击第二轮只阅读第二轮回答',root.querySelector('.spread').textContent.includes('第二条独立回答')&&!root.querySelector('.spread').textContent.includes('让阅读，回到'));
  check('切换轮次保留沉浸状态',root.querySelector('.reader').dataset.immersive==='true');
- const heading=[...root.querySelectorAll('.catalog-section')].find(n=>n.textContent.includes('用小节组织阅读'));heading.click();await wait();root=active();
+ const heading=[...root.querySelectorAll('.catalog-section')].find(n=>n.textContent.includes('用小节组织阅读'));heading.click();await wait();root=active();if(root.querySelector('.catalog').hidden)root.querySelector('[data-action=catalog]').click();
  check('点击其他轮次的标题可直接定位',root.querySelector('.spread').textContent.includes('用小节组织阅读'));
  check('选中目录项能高亮对应标题',[...root.querySelectorAll('.catalog-section[aria-current]')].some(n=>n.textContent.includes('用小节组织阅读')));
  const rich=document.createElement('div');rich.innerHTML='<p><span data-d-default-strong>'+('跨页加粗文字'.repeat(350))+'</span></p>';
@@ -42,11 +43,11 @@ globalThis.runCatalogTests=async function(){
  const late=()=>{const a=document.createElement('a');a.setAttribute('data-interactive-row-link','');a.href='/g/g-p-demo/c/project-late';a.textContent='加载途中出现的新会话';document.querySelector('#project-items').append(a);};row.addEventListener('click',late,{once:true});
  const stopped=await BookCatalog.loadHistory({signal:abort.signal,onUpdate(){abort.abort();}});
  check('停止加载也返回实际数量并恢复项目状态',stopped===BookCatalog.books().length&&row.getAttribute('data-app-action-sidebar-project-collapsed')==='true');
- const first=document.querySelector('#first');first.remove();await wait();root=active();
+ const first=document.querySelector('#first');first.remove();await wait();root=active();if(root.querySelector('.catalog').hidden)root.querySelector('[data-action=catalog]').click();
  check('原网页虚拟化移除节点时当前书页仍保留',!!root?.querySelector('.reader')&&root.querySelector('.spread').textContent.includes('用小节组织阅读'));
  const currentBook=root.querySelector('.book-title[aria-current=page]').closest('.book-node');
- const secondAgain=[...currentBook.querySelectorAll('.round-title')].find(n=>n.textContent.includes('另一条回答'));secondAgain.click();await wait();root=active();
- const cachedHeading=[...root.querySelectorAll('.catalog-section')].find(n=>n.textContent.includes('用小节组织阅读'));cachedHeading.click();await wait();root=active();
+ const secondAgain=[...currentBook.querySelectorAll('.round-title')].find(n=>n.textContent.includes('另一条回答'));secondAgain.click();await wait();root=active();if(root.querySelector('.catalog').hidden)root.querySelector('[data-action=catalog]').click();
+ const cachedHeading=[...root.querySelectorAll('.catalog-section')].find(n=>n.textContent.includes('用小节组织阅读'));cachedHeading.click();await wait();root=active();if(root.querySelector('.catalog').hidden)root.querySelector('[data-action=catalog]').click();
  check('目录可以重新打开本页内缓存的早期回答',root.querySelector('.spread').textContent.includes('用小节组织阅读'));
  let injected=false;const sc=document.scrollingElement;
  const inject=()=>{if(injected||sc.scrollTop!==0)return;injected=true;const unit=document.createElement('div');unit.innerHTML='<div data-message-author-role="user" data-message-id="older-user">更早的问题</div><div data-message-author-role="assistant"><div class="markdown"><h2>更早的独立回答</h2><p>这是更早的内容。</p></div></div>';document.querySelector('main').prepend(unit);};
@@ -62,8 +63,8 @@ globalThis.runCatalogTests=async function(){
  root.querySelector('[data-action=next]').click();root.querySelector('[data-action=close]').click();
  const saved=BookCatalog.positionFor(BookCatalog.sourceId(source));
  const nativeSecond=document.querySelector('#second .markdown,#second [data-markdown-text-style]');nativeSecond.scrollIntoView({block:'start',behavior:'instant'});nativeSecond.dispatchEvent(new PointerEvent('pointerover',{bubbles:true}));
- document.querySelector('[data-book-reader=entry]').shadowRoot.querySelector('.launch').click();await wait();root=active();
- const resume=[...root.querySelectorAll('.round-title')].find(n=>n.textContent.includes('请写一篇'));resume.click();await wait();root=active();
+ document.querySelector('[data-book-reader=entry]').shadowRoot.querySelector('.launch').click();await wait();root=active();if(root.querySelector('.catalog').hidden)root.querySelector('[data-action=catalog]').click();
+ const resume=[...root.querySelectorAll('.round-title')].find(n=>n.textContent.includes('请写一篇'));resume.click();await wait();root=active();if(root.querySelector('.catalog').hidden)root.querySelector('[data-action=catalog]').click();
  const blocks=[...root.querySelectorAll('.spread .paper-content > [data-book-offset]')];
  check('退出后重新选择该轮会恢复书页位置',saved>0&&Math.min(...blocks.map(n=>Number(n.dataset.bookOffset)))<=saved&&Math.max(...blocks.map(n=>Number(n.dataset.bookOffset)+n.textContent.length))>saved);
  root.querySelector('[data-action=close]').click();

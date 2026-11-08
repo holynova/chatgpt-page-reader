@@ -1,92 +1,93 @@
-# 回答成书
+<div align="center">
+  <img src="extension/icons/128.png" width="52" height="52" alt="回答成书图标">
+  <h1>回答成书</h1>
+  <p>把 ChatGPT 的长回答，翻成一页一页的书。</p>
+  <p>
+    <a href="https://github.com/holynova/chatgpt-page-reader/releases/latest">下载扩展</a> ·
+    <a href="#安装">安装</a> ·
+    <a href="docs/usage.md">使用说明</a>
+  </p>
+  <p>
+    <a href="https://github.com/holynova/chatgpt-page-reader/actions/workflows/check.yml"><img src="https://github.com/holynova/chatgpt-page-reader/actions/workflows/check.yml/badge.svg" alt="代码与打包检查"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-7b8794?style=flat" alt="MIT 许可证"></a>
+    <img src="https://img.shields.io/badge/Chrome-Manifest_V3-7b8794?style=flat" alt="PC Chrome，Manifest V3 扩展">
+  </p>
+</div>
 
-把 ChatGPT 网页中的**一条回答**，重新排成可翻页的书籍。适用于 PC Chrome，版本 0.3.0。
+![白色双页书面与右侧浮动工具栏](assets/readme/reading.png)
 
-![双页阅读，本地合成样例](artifacts/reader-v3-standard.png)
+*本地演示截图，运行与扩展相同的产品脚本。*
+
+- **分页阅读**：单双页、无动画翻页；切换时定位到当前文字，各轮保留本标签页内的阅读位置。
+- **三级目录**：会话 → 每轮提问 → 回答标题。普通历史与项目会话可继续加载，归档暂不读取。
+- **书内追问**：展开输入框，通过 ChatGPT 原生流程发送；新回答单独进入书页。
+- **阅读排版**：字体、字号、行距、边距与主题。保留 Markdown 的加粗、列表、引用、代码和表格。
 
 ## 安装
 
-1. 在 Chrome 地址栏输入 `chrome://extensions`，开启右上角的「开发者模式」。
-2. 点击「加载已解压的扩展程序」，选择本项目的 **`extension` 文件夹**，不要选择整个项目，也不要直接选择 ZIP。
-3. 刷新已打开的 ChatGPT 页面。在任意阅读位置点击右下角「分页阅读」，或点击 Chrome 工具栏的插件图标。
+1. 在 [Releases](https://github.com/holynova/chatgpt-page-reader/releases/latest) 下载扩展 ZIP，解压到固定文件夹。
+2. 在 Chrome 地址栏输入 `chrome://extensions`，开启右上角的「开发者模式」。
+3. 点击「加载已解压的扩展程序」，选择刚解压的文件夹。文件夹内应直接有 `manifest.json`。
+4. 刷新 ChatGPT，点击右下角的「分页阅读」，或点击浏览器工具栏中的扩展图标。
 
-从旧版升级：在扩展管理页点击本插件的「重新加载」，再刷新 ChatGPT 页面。v0.2.0 新增了脚本文件，仅刷新网页不足以完成升级。
+更新时替换文件，在扩展管理页点击「重新加载」，再刷新 ChatGPT。
 
-本机文件夹：`/Users/sym/Code/chatgpt-page-reader/extension`。
+## 界面
 
-也可以将 `artifacts/chatgpt-page-reader-0.3.0.zip` 解压到一个固定位置，再选择解压后的目录加载。移动或删除已加载的文件夹，会影响扩展运行。
+右侧工具栏依次是 **目录、排版、追问、深色、沉浸**。目录和排版以覆盖面板打开，保留书页的排版宽度；点击遮罩或按 Escape 收起。
 
-## 使用
+<details>
+<summary>目录：按会话、轮次和 Markdown 标题导航</summary>
 
-- 固定悬浮入口和 Chrome 工具栏入口，选择当前可见的单条回答；不包含提问，不会合并其他回答。
-- 从当前可见文字位置进入书页；退出时返回对应文字位置。翻页后退出，会跟随新的阅读进度。
-- 普通模式占据主内容区，保留原侧边栏；退出后回到原回答文字位置。
-- 点击「沉浸」铺满网页，使用「退出沉浸」或 Escape 返回普通模式。
-- 沉浸目录为统一的可折叠树：一级是会话，二级是每轮用户问题与回答，三级是该回答的 Markdown 标题。H1–H6 保留原始级别并递进缩进。点击轮次或标题只阅读对应回答。
-- 一级包括普通历史和项目中的会话，归档暂不读取。「加载历史会话」沿用 ChatGPT 原侧栏的滚动、项目展开和「展开显示」控件；结束或停止后恢复原来的折叠与滚动状态。
-- 未访问的会话按需进入并读取轮次；「加载更早对话」通过原对话的顶部滚动加载早期轮次。已读取的轮次和各轮书页位置在本标签页内保留，原网页虚拟化移除节点后仍可从目录继续阅读。
-- 加载状态显示实际读取数量。原生界面未继续返回记录时会停止；不会将一次未增长的结果标成“全量完整”，可继续加载。
-- 在书页底部直接追问。Enter 发送，Shift+Enter 换行。使用 ChatGPT 原生输入和发送流程，不调用额外 API。新回答会独立接入书内，并跟随流式内容更新。
-- 原输入框已有草稿时，不会覆盖；书内草稿在当前页面内保留，不写入扩展存储。
-- 单页或双页显示；可用空间不足 800px 时自动单页。
-- 点击上一页 / 下一页，或使用左右方向键、PageUp / PageDown；无动画，也不会随翻页移动网页。编辑输入框时不会拦截这些按键。
-- 「排版」支持字体、字号、行距、段落间距、页边距、阅读区域宽度、书页高度，以及暖纸、纯白、夜间主题。字体来自系统，未安装的字体按系统回退。
-- 保留加粗、斜体、删除线、标题、列表、引用、行内代码、代码块、链接和表格。新版 ChatGPT 的样式化文本会转换为标准语义标签；跨页时仍保持格式。
-- 图片整体适配书页，可点击放大；普通长表格按行跨页并重复表头；过宽表格与代码块允许局部横向滚动。
-- 点击「退出」或再次点击右下角按钮，退出这一条回答的分页模式。
-- 如果回答仍在生成或被修改，工具栏会出现「更新」。点击后重新提取，不会在阅读中自动跳动。
+![可搜索的三级目录覆盖在书页右侧](assets/readme/directory.png)
 
-## 范围与验证
+一级包含普通与项目会话；二级以每轮提问命名；三级保留 H1–H6 的层次。点击某轮只阅读该轮回答，点击标题跳到对应内容。
 
-- 支持 `chatgpt.com` 与 `chat.openai.com` 下的标准回答正文。支持当前的 `[data-markdown-text-style="assistant-message"]` 结构与旧版回答节点 / `.markdown` 结构，ChatGPT 改版后可能需要适配。
-- 已读取真实 ChatGPT 页面确认回答、编辑器、发送按钮与会话链接的结构；用户已确认 v0.1.1 入口及分页可用。v0.3.0 的分页、三级目录、格式保留、追问和导航以本地合成样例验证，未向用户真实会话发送测试问题。工具栏后台流程使用模拟 Chrome API 检查。
-- 动态工具卡片、Canvas、交互图表、音视频、附件与思考过程不属于第一版正文范围；不把它们截图塞进书页。
-- 超高单行表格、跨行合并单元格等无法安全分页的对象，保留为带提示的局部滚动区域，以免改变表格含义。
-- 尽力保留正文文字、链接、标题、列表、代码、图片、表格与 MathML。没有导出为 EPUB/PDF，也没有跨设备同步。
-- 改字号、尺寸或模式后重新分页，按正文文字位置定位；不保证页码相同。不保存跨刷新阅读进度。
-- 宽高设置用于普通模式；沉浸模式自动占满当前窗口。历史由 ChatGPT 原生界面按需加载，不调用未公开的历史 API，不读取归档。项目与普通侧栏出现的同一会话按会话 ID 去重。
-- 原网页虚拟化尚未载入对应轮次时，退出的原文定位取决于 ChatGPT 当前挂载的节点；该轮的书页位置仍保留在标签页内，可从目录继续。
-- 「双页」是两页正文并排，不添加封面或将首屏强制留作扉页。
+「加载历史会话」沿用原侧栏的滚动、项目展开和「展开显示」控件。「加载更早对话」读取当前会话的早期轮次。界面显示实际读取数量；原生页面暂未返回的历史可以继续加载。
 
-![沉浸模式，本地合成样例](artifacts/reader-v3-directory.png)
+</details>
 
-## 数据与权限
+<details>
+<summary>排版：留白、字体与单双页</summary>
 
-请求 `storage`、`activeTab`、`scripting` 权限，静态内容脚本只匹配两个 ChatGPT 域名。点击工具栏图标时可为安装前打开的标签页补注入本地脚本；后台会再次检查域名，不对其他网站注入。使用 Manifest V3，后台仅处理工具栏启动，无账号、远程代码、分析统计或上传接口。
+![右侧排版面板与字体卡片](assets/readme/settings.png)
 
-正文在当前网页中克隆、排版；本标签页读取到的会话标题、轮次与回答节点仅在内存缓存，用于目录导航和虚拟化后的继续阅读，不写入扩展存储；仅排版偏好保存在 `chrome.storage.local`，不启用同步。会话切换时，页面 `sessionStorage` 暂存目标路径、模式和时间，以便跨页面导航后恢复阅读模式；不保存正文。用户点击发送的追问由 ChatGPT 原生流程提交给 ChatGPT，本插件没有自己的服务端。图片继续使用原图地址，图片资源可能由浏览器正常加载；点击原文链接会打开对应网站。
+字体使用系统字体，不需要下载字体。窗口不足以容纳双页时自动切换单页。
 
-## 本地演示与检查
+</details>
 
-无需构建或安装依赖，`extension` 就是实际加载目录。
+<details>
+<summary>追问与深色模式</summary>
+
+![在深色书页内展开追问输入框](assets/readme/dark.png)
+
+Enter 发送，Shift+Enter 换行。原输入框已有草稿时不会覆盖。展开追问会为输入框留出空间，正文不会被遮挡。
+
+</details>
+
+## 本地开发
+
+无需安装依赖。`extension/` 就是可加载的扩展目录。
 
 ```sh
+git clone https://github.com/holynova/chatgpt-page-reader.git
+cd chatgpt-page-reader
 npm run check
 npm run demo
 ```
 
-打开 `http://127.0.0.1:8766/tests/demo.html`。这是有明显标识的本地合成样例，直接载入同一份产品脚本，**不是已安装扩展的真实 ChatGPT 截图**。
+打开 `http://127.0.0.1:8766/tests/demo.html?modern` 运行本地演示。`npm run package` 生成可分发的扩展 ZIP。
 
-浏览器控制台运行：
+[完整使用说明](docs/usage.md) · [更新记录](CHANGELOG.md) · [浏览器检查记录](artifacts/test-results-v4.json)
 
-```js
-await runReaderTests();
-await runReaderEdgeTests();
-await runReaderProgressTests();
-await runImmersiveTests();
-await runCatalogTests();
-```
+## 范围与数据
 
-在 URL 后加 `?modern` 可测试不含旧版标记的新回答结构。
+- 面向 PC Chrome 的 ChatGPT 网页回答；Canvas、交互工具卡片、附件和思考过程不在正文分页范围内。
+- 正文、目录与书页位置只在当前标签页内处理；排版偏好存于浏览器本地，不跨设备同步。
+- 追问交给 ChatGPT 原生输入和发送流程。本扩展没有自己的服务端、分析统计或额外模型 API。
+- 请求 `storage`、`activeTab`、`scripting`；脚本只匹配两个 ChatGPT 域名，工具栏注入时再次检查域名。
+- ChatGPT 改版可能需要适配。目录加载、追问和分页有本地样例回归检查；不声称覆盖所有真实回答布局。
 
-核心检查验证逐页正文顺序与完整性、代码空格与换行、表格行顺序、独立回答、方向键、恢复原文、设置存储和动态回答。边界检查覆盖宽窄窗口、图片放大、滚动位置、危险属性过滤及复杂表格。
+## 许可证
 
-实际执行结果记录于 `artifacts/test-results-v3.json`；当前检查环境与未完成项目也记录在该文件中。
-
-```sh
-npm run package
-```
-
-ZIP 根目录包含 `manifest.json` 和运行脚本，不包含测试、截图或其他材料。未上传 Chrome 应用商店。
-
-实现依据：[Chrome 内容脚本文档](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts)。阅读界面的单双页与排版设置参考微信读书网页版的交互方向，未复制其代码或视觉资产。
+[MIT](LICENSE) © 2026 holynova

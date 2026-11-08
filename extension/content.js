@@ -2,7 +2,7 @@
   'use strict';
   if (globalThis.__bookReaderInstalled) return;
   globalThis.__bookReaderInstalled = true;
-  const DEFAULTS = { size:18, leading:1.85, paragraph:16, margin:30, width:1920, height:1100, font:'serif', theme:'paper', columns:2 };
+  const DEFAULTS = { size:18, leading:2.05, paragraph:22, margin:48, width:1920, height:1100, font:'serif', theme:'white', columns:2 };
   const FONTS = {
     serif: 'Georgia,"Noto Serif SC","Songti SC",SimSun,serif',
     sans: '-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif',
@@ -10,6 +10,8 @@
   };
   const ranges = { size:[14,28], leading:[1.3,2.4], paragraph:[0,32], margin:[16,64], width:[720,2560], height:[400,1400] };
   const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 5.5C8 2.8 4 3.6 2.5 4.5v15C5 18 8.5 18 12 20c3.5-2 7-2 9.5-.5v-15C20 3.6 16 2.8 12 5.5Zm0 0V20"/></svg>';
+  const draw=path=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"/></svg>`;
+  const glyph={catalog:draw('M5 6h14M5 12h14M5 18h14'),ask:draw('M20 11a8 8 0 0 1-8 8H8l-5 3 1.5-6A8 8 0 1 1 20 11Z'),moon:draw('M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z'),expand:draw('M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5'),refresh:draw('M20 4v6h-6M4 20v-6h6M5 8a8 8 0 0 1 13-4l2 2M4 18l2 2a8 8 0 0 0 13-4')};
   let saved = { ...DEFAULTS };
   const controllers = new Map();
   let current = null;
@@ -25,12 +27,14 @@
   function cleanSettings(value) {
     const result = { ...DEFAULTS };
     for (const [k,[min,max]] of Object.entries(ranges)) if (Number.isFinite(value?.[k])) result[k] = Math.min(max,Math.max(min,value[k]));
-    if (value?.layoutVersion !== 2) {
+    if (value?.layoutVersion !== 4) {
+      if (value?.theme === 'paper') result.theme = 'white';
+      if(value?.margin===30)result.margin=48;if(value?.leading===1.85)result.leading=2.05;if(value?.paragraph===16)result.paragraph=22;
       if (value?.width === 1080) result.width = DEFAULTS.width;
       if (value?.height === 510) result.height = DEFAULTS.height;
     }
     if (value?.font in FONTS) result.font = value.font;
-    if (['paper','white','dark'].includes(value?.theme)) result.theme = value.theme;
+    if (['paper','white','dark'].includes(value?.theme) && !(value?.layoutVersion !== 4 && value?.theme === 'paper')) result.theme = value.theme;
     if ([1,2].includes(value?.columns)) result.columns = value.columns;
     return result;
   }
@@ -38,7 +42,7 @@
     try { if (globalThis.chrome?.storage?.local) saved = cleanSettings((await chrome.storage.local.get('bookReaderSettings')).bookReaderSettings); } catch { /* Defaults remain available if extension was reloaded. */ }
   })();
   function persist(settings) {
-    saved = { ...settings,layoutVersion:2 };
+    saved = { ...settings,layoutVersion:4 };
     try { globalThis.chrome?.storage?.local?.set({bookReaderSettings:saved})?.catch(() => {}); } catch { /* Reinstall/reload must not break reading. */ }
   }
   function el(tag, cls, text) {
@@ -94,7 +98,7 @@
       if (previous?.reader && previous !== this) previous.close({restorePosition:false,keepPending:true});
       this.settings = { ...saved }; current = this;
       this.immersive = !!options.immersive;
-      this.showCatalog = true;
+      this.showCatalog = false;this.askOpen = false;this.catalogQuery = '';
       this.expandedBooks = new Set(options.catalogState?.books || [location.pathname]);
       this.expandedBooks.add(location.pathname);
       this.expandedRounds = new Set(options.catalogState?.rounds || []);
@@ -111,11 +115,12 @@
       this.placeholder = el('div'); this.placeholder.dataset.bookReader = 'placeholder'; this.placeholder.setAttribute('aria-hidden','true'); this.source.before(this.placeholder);
       document.body.append(this.host);
       this.reader = el('section','reader'); this.reader.setAttribute('aria-label','回答分页阅读器');
-      this.reader.innerHTML = `<aside class="catalog" hidden><div class="catalog-list" aria-label="会话、轮次与回答标题"></div><div class="catalog-actions"><button type="button" data-action="history">加载历史会话</button><button type="button" data-action="earlier">加载更早对话</button><p class="catalog-status" role="status" hidden></p></div></aside><div class="reading"><header class="top"><div class="layout" role="group" aria-label="页面布局"><button type="button" data-action="one" aria-label="单页显示">单页</button><button type="button" data-action="two" aria-label="双页显示">双页</button></div><div class="tools"><button type="button" data-action="catalog" aria-expanded="true" hidden>目录</button><button type="button" class="notice" data-action="refresh" title="原回答有更新" hidden>更新</button><button type="button" data-action="settings" aria-expanded="false">排版</button><button type="button" data-action="immersive" aria-pressed="false">沉浸</button><button type="button" class="plain" data-action="close">退出</button></div></header><div class="settings" hidden></div><div class="book" tabindex="0" role="region" aria-label="书页，使用左右方向键翻页"><div class="spread"></div></div><footer class="bottom"><div class="navigation"><button type="button" data-action="prev" aria-label="上一页" title="上一页（←）">←</button><span class="position" role="status" aria-live="polite"></span><button type="button" data-action="next" aria-label="下一页" title="下一页（→）">→</button></div><form class="ask"><textarea rows="1" aria-label="书内追问" placeholder="追问…"></textarea><button type="submit" aria-label="发送追问" disabled>↑</button></form><p class="ask-status" role="status" hidden></p></footer></div>`;
+      this.reader.innerHTML = `<button type="button" class="panel-backdrop" data-action="dismiss" aria-label="关闭面板" tabindex="-1" hidden></button><div class="reading"><header class="top"><div class="reader-meta"><span class="reader-mark">${icon}</span><span class="reader-title"></span><button type="button" class="plain" data-action="close" aria-label="退出阅读">退出</button></div><div class="tools"><button type="button" data-action="catalog" title="目录" aria-label="目录" aria-expanded="false">${glyph.catalog}</button><button type="button" data-action="settings" title="排版" aria-label="排版" aria-expanded="false"><span class="type-icon">Aᵗ</span></button><button type="button" data-action="ask" title="追问" aria-label="打开追问" aria-expanded="false">${glyph.ask}</button><button type="button" data-action="theme" title="深色模式" aria-label="切换深色模式" aria-pressed="false">${glyph.moon}</button><button type="button" data-action="immersive" title="沉浸模式" aria-label="沉浸模式" aria-pressed="false">${glyph.expand}</button><button type="button" class="notice" data-action="refresh" title="原回答有更新" aria-label="更新回答" hidden>${glyph.refresh}</button></div></header><aside class="catalog" hidden><div class="catalog-search"><input type="search" placeholder="搜索目录" aria-label="搜索目录"></div><div class="catalog-list" aria-label="会话、轮次与回答标题"></div><div class="catalog-actions"><button type="button" data-action="history">加载历史会话</button><button type="button" data-action="earlier">加载更早对话</button><p class="catalog-status" role="status" hidden></p></div></aside><div class="settings" role="dialog" aria-label="阅读排版" hidden></div><div class="book" tabindex="0" role="region" aria-label="书页，使用左右方向键翻页"><div class="chapter-caption" aria-hidden="true" hidden></div><div class="spread"></div></div><footer class="bottom"><div class="navigation"><button type="button" data-action="prev" aria-label="上一页" title="上一页（←）">‹ 上一页</button><span class="position" role="status" aria-live="polite"></span><button type="button" data-action="next" aria-label="下一页" title="下一页（→）">下一页 ›</button></div><form class="ask" hidden><textarea rows="1" aria-label="书内追问" placeholder="追问…"></textarea><button type="submit" aria-label="发送追问" disabled>↑</button></form><p class="ask-status" role="status" hidden></p></footer></div>`;
       this.root.append(this.reader);
       this.book = this.reader.querySelector('.book'); this.spread = this.reader.querySelector('.spread');
       this.measure = el('div','paper-content measure'); this.measure.setAttribute('aria-hidden','true'); this.reader.append(this.measure);
       this.makeSettings();
+      this.reader.querySelector('.catalog-search input').addEventListener('input',event=>{this.catalogQuery=event.target.value.trim().toLowerCase();this.catalogSignature=null;this.renderCatalog();});
       this.ask = this.reader.querySelector('.ask textarea'); this.ask.value = this.draft || '';
       this.ask.addEventListener('input',() => { this.draft = this.ask.value; this.reader.querySelector('.ask button').disabled = !this.ask.value.trim() || this.sending; });
       this.ask.addEventListener('keydown',event => {
@@ -132,18 +137,21 @@
         if (action === 'one' || action === 'two') { this.settings.columns = action === 'one' ? 1 : 2; persist(this.settings); this.schedule(); }
         if (action === 'settings') {
           const panel = this.reader.querySelector('.settings'); panel.hidden = !panel.hidden;
-          e.target.setAttribute('aria-expanded', String(!panel.hidden));
+          if(!panel.hidden)this.showCatalog=false;this.reflow();
         }
         if (action === 'reset') {
           this.settings = { ...DEFAULTS }; persist(this.settings); this.makeSettings(); this.schedule();
         }
         if (action === 'refresh') this.capture();
+        if (action === 'dismiss') {this.showCatalog=false;this.reader.querySelector('.settings').hidden=true;this.reflow();}
+        if (action === 'ask') {this.showCatalog=false;this.reader.querySelector('.settings').hidden=true;this.askOpen=!this.askOpen;this.reader.querySelector('.ask').hidden=!this.askOpen;this.reader.dataset.ask=String(this.askOpen);this.reflow();this.reader.querySelector('[data-action=ask]').setAttribute('aria-expanded',String(this.askOpen));if(this.askOpen)this.ask.focus({preventScroll:true});}
+        if (action === 'theme') {this.settings.theme=this.settings.theme==='dark'?'white':'dark';this.reader.querySelector('[name=theme]').value=this.settings.theme;persist(this.settings);this.schedule();}
         if (action === 'immersive') this.setImmersive(!this.immersive);
-        if (action === 'catalog') { this.showCatalog = !this.showCatalog; this.reflow(); }
+        if (action === 'catalog') { this.showCatalog = !this.showCatalog;if(this.showCatalog)this.reader.querySelector('.settings').hidden=true;this.reflow(); }
         if (action === 'history' || action === 'earlier') this.loadCatalog(action);
         if (e.target.closest('.book')) {
           this.reader.querySelector('.settings').hidden = true;
-          this.reader.querySelector('[data-action=settings]').setAttribute('aria-expanded','false');
+          this.syncPanels();
         }
         if (e.target.tagName === 'IMG') this.zoom(e.target);
       });
@@ -154,9 +162,11 @@
         const target = e.composedPath()[0];
         if (e.key === 'Escape' && !this.reader.querySelector('.settings').hidden) {
           this.reader.querySelector('.settings').hidden = true;
-          this.reader.querySelector('[data-action=settings]').setAttribute('aria-expanded','false');
+          this.syncPanels();
           this.book.focus({preventScroll:true}); return;
         }
+        if(e.key==='Escape'&&this.showCatalog){e.preventDefault();this.showCatalog=false;this.syncPanels();this.book.focus({preventScroll:true});return;}
+        if(e.key==='Escape'&&this.askOpen){e.preventDefault();this.askOpen=false;this.reader.querySelector('.ask').hidden=true;this.reader.dataset.ask='false';this.reflow();this.reader.querySelector('[data-action=ask]').setAttribute('aria-expanded','false');this.book.focus({preventScroll:true});return;}
         if (e.key === 'Escape' && this.immersive) { e.preventDefault(); this.setImmersive(false); return; }
         if (e.key === 'Tab' && this.immersive) {
           const focusable = [...this.reader.querySelectorAll('button:not(:disabled),textarea,select,input')].filter(n => n.getClientRects().length && !n.closest('[hidden]'));
@@ -192,16 +202,24 @@
     }
     makeSettings() {
       const panel = this.reader.querySelector('.settings'); panel.replaceChildren();
+      const mode=el('div','setting mode-setting');mode.append(el('span',null,'页面'));
+      const layout=el('div','layout');layout.setAttribute('role','group');layout.setAttribute('aria-label','页面布局');
+      for(const [action,label] of [['one','单页'],['two','双页']]){const button=el('button',null,label);button.type='button';button.dataset.action=action;button.setAttribute('aria-label',`${label}显示`);layout.append(button);}mode.append(layout);panel.append(mode);
       const fields = [
-        ['font','字体',[['serif','衬线'],['sans','无衬线'],['mono','等宽']]],
-        ['theme','纸张',[['paper','暖纸'],['white','纯白'],['dark','夜间']]],
         ['size','字号',14,28,1,'px'],['leading','行距',1.3,2.4,.05,''],
+        ['font','字体',[['serif','衬线'],['sans','无衬线'],['mono','等宽']]],
+        ['theme','纸张',[['white','纯白'],['paper','暖纸'],['dark','夜间']]],
         ['paragraph','段距',0,32,2,'px'],['margin','边距',16,64,2,'px'],
         ['width','宽度',720,2560,40,'px'],['height','高度',400,1400,20,'px']
       ];
       for (const [key,label,options,max,step,unit] of fields) {
-        const wrapper = el('label','setting'); const caption = el('span',null,label); wrapper.append(caption);
+        const wrapper = el(key==='font'?'div':'label',`setting ${key}-setting`); const caption = el('span',null,label); wrapper.append(caption);
         let input;
+        if(key==='font'){
+          const choices=el('div','font-options');choices.setAttribute('role','radiogroup');choices.setAttribute('aria-label','字体');
+          for(const [value,text] of options){const choice=el('label','font-choice');const radio=el('input');radio.type='radio';radio.name='font';radio.value=value;radio.checked=this.settings.font===value;radio.setAttribute('aria-label',`${text}字体`);const sample=el('span',null,text);sample.style.fontFamily=FONTS[value];choice.append(radio,sample);radio.addEventListener('input',()=>{if(radio.checked){this.settings.font=value;persist(this.settings);this.schedule();}});choices.append(choice);}
+          wrapper.append(choices);panel.append(wrapper);continue;
+        }
         if (Array.isArray(options)) {
           input = el('select');
           for (const [value,text] of options) { const o = el('option',null,text); o.value = value; input.append(o); }
@@ -260,16 +278,16 @@
       this.reader.dataset.immersive = String(this.immersive);
       this.reader.setAttribute('role',this.immersive ? 'dialog' : 'region');
       if (this.immersive) this.reader.setAttribute('aria-modal','true'); else this.reader.removeAttribute('aria-modal');
-      this.reader.dataset.catalog = String(this.immersive && this.showCatalog);
-      this.reader.querySelector('.catalog').hidden = !this.immersive || !this.showCatalog;
+      this.syncPanels();
       const immersiveButton = this.reader.querySelector('[data-action=immersive]');
-      immersiveButton.textContent = this.immersive ? '退出沉浸' : '沉浸'; immersiveButton.setAttribute('aria-pressed',String(this.immersive));
-      const catalogButton = this.reader.querySelector('[data-action=catalog]'); catalogButton.hidden = !this.immersive; catalogButton.setAttribute('aria-expanded',String(this.showCatalog));
+      immersiveButton.title=this.immersive?'退出沉浸':'沉浸模式';immersiveButton.setAttribute('aria-label',immersiveButton.title);immersiveButton.setAttribute('aria-pressed',String(this.immersive));
+      const catalogButton = this.reader.querySelector('[data-action=catalog]'); catalogButton.hidden = false; catalogButton.setAttribute('aria-expanded',String(this.showCatalog));
       for (const key of ['width','height']) this.reader.querySelector(`[name=${key}]`).disabled = this.immersive;
       const width = this.reader.querySelector('.reading').getBoundingClientRect().width;
       this.columns = s.columns === 2 && width >= 800 ? 2 : 1;
-      const height = Math.max(100,this.reader.clientHeight-this.reader.querySelector('.top').offsetHeight-this.reader.querySelector('.bottom').offsetHeight);
+      const height = Math.max(100,this.reader.querySelector('.reading').clientHeight-this.reader.querySelector('.bottom').offsetHeight);
       this.reader.dataset.theme = s.theme;
+      const themeButton=this.reader.querySelector('[data-action=theme]');themeButton.setAttribute('aria-pressed',String(s.theme==='dark'));themeButton.setAttribute('aria-label',s.theme==='dark'?'切换浅色模式':'切换深色模式');themeButton.title=s.theme==='dark'?'浅色模式':'深色模式';
       for (const [k,v] of Object.entries({columns:this.columns,height:`${height}px`,margin:`${s.margin}px`,size:`${s.size}px`,leading:s.leading,paragraph:`${s.paragraph}px`,font:FONTS[s.font],'image-height':`${height - 2*s.margin - 20}px`,'measure-width':`${width/this.columns - 2*s.margin - 2}px`,'measure-height':`${height - 2*s.margin}px`})) this.reader.style.setProperty(`--${k}`,v);
       this.pages = BookPaginator.paginate(this.blocks,this.measure);
       this.index = 0;
@@ -294,6 +312,7 @@
       const end = Math.min(this.pages.length,this.index + this.columns);
       this.reader.querySelector('.position').textContent = `${this.index + 1}${end > this.index + 1 ? '–'+end : ''} / ${this.pages.length}`;
       this.book.setAttribute('aria-label',`第 ${this.index+1}${end > this.index+1 ? ' 至 '+end : ''} 页，共 ${this.pages.length} 页；左右方向键翻页`);
+      const caption=this.reader.querySelector('.chapter-caption'),active=[...(this.chapters||[])].reverse().find(c=>c.offset<=(this.pages[this.index]?.bookOffset||0));caption.textContent=active?.title||'';caption.hidden=this.index===0||!active||this.settings.margin<36;
       this.highlightChapter();
     }
     goToOffset(offset) {
@@ -326,7 +345,7 @@
     async openRound(book, round, offset) {
       if(book.path!==location.pathname){this.navigateBook(book,{sourceId:round.sourceId,offset:offset??BookCatalog.positionFor(round.sourceId,book.path)});return;}
       if(!round.source)return;
-      if(BookCatalog.sourceId(this.source)===round.sourceId){if(offset!==undefined)this.goToOffset(offset);this.book.focus({preventScroll:true});return;}
+      if(BookCatalog.sourceId(this.source)===round.sourceId){if(offset!==undefined)this.goToOffset(offset);this.showCatalog=false;this.syncPanels();this.book.focus({preventScroll:true});return;}
       offset=offset??BookCatalog.positionFor(round.sourceId,book.path);
       let target=[...controllers.values()].find(r=>r.source===round.source);
       if(!target){target=new Reader(round.source,round.source);controllers.set(round.source,target);}
@@ -337,6 +356,7 @@
     renderCatalog() {
       if(!this.reader)return;
       const model=BookCatalog.tree(this.source,this.blocks), currentId=BookCatalog.sourceId(this.source);
+      this.reader.querySelector('.reader-title').textContent=model.find(b=>b.current)?.title||document.title;
       if(!this.catalogInitialized){
         const current=model.find(b=>b.current)?.rounds.find(r=>r.sourceId===currentId);
         if(current)this.expandedRounds.add(`${location.pathname}|${current.id}`);
@@ -386,7 +406,14 @@
         });
         bookNode.append(rounds);tree.append(bookNode);
       }
-      list.append(tree);list.scrollTop=top;this.catalogScroll=0;this.highlightChapter();
+      list.append(tree);this.filterCatalog();list.scrollTop=top;this.catalogScroll=0;this.highlightChapter();
+    }
+    filterCatalog(){
+      const query=this.catalogQuery;if(!query)return;
+      for(const book of this.reader.querySelectorAll('.book-node')){const title=book.querySelector('.book-title').textContent.toLowerCase().includes(query);book.hidden=!book.textContent.toLowerCase().includes(query);if(book.hidden)continue;book.querySelector('.round-list').hidden=false;for(const round of book.querySelectorAll('.round-node')){const match=title||round.querySelector('.round-title').textContent.toLowerCase().includes(query);round.hidden=!match&&!round.textContent.toLowerCase().includes(query);round.querySelector('.section-list').hidden=false;for(const leaf of round.querySelectorAll('.section-list>li'))leaf.hidden=!match&&!leaf.textContent.toLowerCase().includes(query);}}
+    }
+    syncPanels(){
+      if(!this.reader)return;if(this.showCatalog||!this.reader.querySelector('.settings').hidden){this.askOpen=false;this.reader.dataset.ask='false';this.reader.querySelector('.ask').hidden=true;this.reader.querySelector('[data-action=ask]').setAttribute('aria-expanded','false');}this.reader.querySelector('.catalog').hidden=!this.showCatalog;const settingsOpen=!this.reader.querySelector('.settings').hidden;this.reader.querySelector('.panel-backdrop').hidden=!this.showCatalog&&!settingsOpen;this.reader.querySelector('[data-action=catalog]').setAttribute('aria-expanded',String(this.showCatalog));this.reader.querySelector('[data-action=settings]').setAttribute('aria-expanded',String(settingsOpen));this.reader.dataset.panel=this.showCatalog?'catalog':settingsOpen?'settings':'none';
     }
     highlightChapter() {
       if(!this.reader)return;

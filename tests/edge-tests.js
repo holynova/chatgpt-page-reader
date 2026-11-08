@@ -10,8 +10,10 @@ globalThis.runReaderEdgeTests = async function () {
   root.querySelector('[data-action=two]').click();await wait();
   const r=root.querySelector('.reader').getBoundingClientRect();
   check('阅读器位于主内容区内',r.left>=document.querySelector('main').getBoundingClientRect().left && r.right<=innerWidth,{left:r.left,right:r.right,viewport:innerWidth});
-  check('窄窗口自动单页',r.width>=800?root.querySelectorAll('.leaf').length===2:root.querySelectorAll('.leaf').length===1);
-  check('书内输入框与翻页控件互不遮挡',root.querySelector('.navigation').getBoundingClientRect().right<=root.querySelector('.ask').getBoundingClientRect().left && root.querySelector('.bottom').getBoundingClientRect().bottom<=innerHeight);
+  check('窄窗口自动单页',root.querySelector('.reading').getBoundingClientRect().width>=800?root.querySelectorAll('.leaf').length===2:root.querySelectorAll('.leaf').length===1);
+  root.querySelector('[data-action=ask]').click();
+  check('书内输入框与翻页控件互不遮挡',root.querySelector('.navigation').getBoundingClientRect().bottom<=root.querySelector('.ask').getBoundingClientRect().top && root.querySelector('.bottom').getBoundingClientRect().bottom<=innerHeight);
+  root.querySelector('[data-action=ask]').click();
   const beforeSettings=root.querySelector('.bottom').getBoundingClientRect().bottom;
   root.querySelector('[data-action=settings]').click();
   check('排版面板不推移书页与翻页控件',root.querySelector('.bottom').getBoundingClientRect().bottom===beforeSettings);

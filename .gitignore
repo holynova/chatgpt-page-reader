@@ -7,3 +7,7 @@ artifacts/*.zip
 artifacts/weread-reference.png
 artifacts/test-state.png
 artifacts/v2-work-in-progress.png
+
+artifacts/ui-v4-draft.png
+artifacts/readme-preview.html
+artifacts/readme-preview-*.png
