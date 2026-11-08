@@ -2,7 +2,7 @@ globalThis.runReaderEdgeTests = async function () {
   const results = [];
   const check=(name,passed,details)=>results.push({name,passed:!!passed,...(!passed?{details}: {})});
   const wait=()=>new Promise(r=>setTimeout(r,250));
-  const host=document.querySelector('#first [data-book-reader]');const root=host.shadowRoot;
+  const host=document.querySelector('[data-book-reader="host"][data-book-source="source"]');const root=host.shadowRoot;
   if(!root.querySelector('.reader')){
     document.querySelector('#source').scrollIntoView({block:'start',behavior:'instant'});window.scrollBy({top:-80,behavior:'instant'});
     document.querySelector('[data-book-reader="entry"]').shadowRoot.querySelector('.launch').click();
@@ -11,7 +11,7 @@ globalThis.runReaderEdgeTests = async function () {
   const r=root.querySelector('.reader').getBoundingClientRect();
   check('阅读器位于主内容区内',r.left>=document.querySelector('main').getBoundingClientRect().left && r.right<=innerWidth,{left:r.left,right:r.right,viewport:innerWidth});
   check('窄窗口自动单页',r.width>=800?root.querySelectorAll('.leaf').length===2:root.querySelectorAll('.leaf').length===1);
-  check('翻页控件不被输入框遮挡',root.querySelector('.bottom').getBoundingClientRect().bottom<document.querySelector('.composer').getBoundingClientRect().top);
+  check('书内输入框与翻页控件互不遮挡',root.querySelector('.navigation').getBoundingClientRect().right<=root.querySelector('.ask').getBoundingClientRect().left && root.querySelector('.bottom').getBoundingClientRect().bottom<=innerHeight);
   const beforeSettings=root.querySelector('.bottom').getBoundingClientRect().bottom;
   root.querySelector('[data-action=settings]').click();
   check('排版面板不推移书页与翻页控件',root.querySelector('.bottom').getBoundingClientRect().bottom===beforeSettings);

@@ -1,0 +1,1022 @@
+{
+  "version": "0.3.0",
+  "environment": "Synthetic legacy/modern ChatGPT DOM; live semantic emphasis, round markers and project expand/more controls inspected; no live chat messages sent",
+  "suites": {
+    "legacy": {
+      "passed": 23,
+      "total": 23,
+      "results": [
+        {
+          "name": "固定入口在任意位置可用",
+          "passed": true
+        },
+        {
+          "name": "回答开头不再添加入口",
+          "passed": true
+        },
+        {
+          "name": "仅隐藏当前正文",
+          "passed": true
+        },
+        {
+          "name": "保留原操作区与输入框",
+          "passed": true
+        },
+        {
+          "name": "长文确实被分成多页",
+          "passed": true
+        },
+        {
+          "name": "每页无正文垂直截断",
+          "passed": true
+        },
+        {
+          "name": "所有正文按顺序保留且没有重复",
+          "passed": true
+        },
+        {
+          "name": "表格36行依序跨页且不丢失",
+          "passed": true
+        },
+        {
+          "name": "代码首尾及长行保留",
+          "passed": true
+        },
+        {
+          "name": "代码逐字符保留空格和换行",
+          "passed": true
+        },
+        {
+          "name": "没有残留代码复制按钮",
+          "passed": true
+        },
+        {
+          "name": "方向键向前翻页",
+          "passed": true
+        },
+        {
+          "name": "输入框方向键不被拦截",
+          "passed": true
+        },
+        {
+          "name": "单页切换",
+          "passed": true
+        },
+        {
+          "name": "字号设置生效",
+          "passed": true
+        },
+        {
+          "name": "仅保存排版设置",
+          "passed": true
+        },
+        {
+          "name": "夜间纸张设置",
+          "passed": true
+        },
+        {
+          "name": "原回答变化提示刷新",
+          "passed": true
+        },
+        {
+          "name": "手动更新关闭提示",
+          "passed": true
+        },
+        {
+          "name": "退出精确恢复正文原样及样式",
+          "passed": true
+        },
+        {
+          "name": "退出后固定入口仍可用",
+          "passed": true
+        },
+        {
+          "name": "切换回答时单独阅读且不混合正文",
+          "passed": true
+        },
+        {
+          "name": "新回答自动出现入口",
+          "passed": true
+        }
+      ]
+    },
+    "legacyProgress": {
+      "passed": 12,
+      "total": 12,
+      "results": [
+        {
+          "name": "从长文中段打开，当前文字位于书页内",
+          "passed": true
+        },
+        {
+          "name": "没有跳回第一页",
+          "passed": true
+        },
+        {
+          "name": "界面无副标题、常驻说明或重复页码",
+          "passed": true
+        },
+        {
+          "name": "原地退出回到相同文字附近",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以从当前位置开启",
+          "passed": true
+        },
+        {
+          "name": "开启后可继续向后阅读",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以退出模式",
+          "passed": true
+        },
+        {
+          "name": "翻页后退出保留新的进度",
+          "passed": true
+        },
+        {
+          "name": "再次开启仍在刚才阅读的内容附近",
+          "passed": true
+        },
+        {
+          "name": "识别真实页面采用的新结构",
+          "passed": true
+        },
+        {
+          "name": "保留正文内可点击实体的文字",
+          "passed": true
+        },
+        {
+          "name": "连续流式更新也能及时识别回答",
+          "passed": true
+        }
+      ]
+    },
+    "legacyImmersive": {
+      "passed": 21,
+      "total": 21,
+      "results": [
+        {
+          "name": "普通模式占据大部分主内容区",
+          "passed": true
+        },
+        {
+          "name": "追问框位于书页内部",
+          "passed": true
+        },
+        {
+          "name": "保留原生输入框节点",
+          "passed": true
+        },
+        {
+          "name": "沉浸模式覆盖整个网页",
+          "passed": true
+        },
+        {
+          "name": "沉浸目录默认可见",
+          "passed": true
+        },
+        {
+          "name": "沉浸模式提供对话框语义",
+          "passed": true
+        },
+        {
+          "name": "当前回答的章节可导航",
+          "passed": true
+        },
+        {
+          "name": "点击章节定位到对应书页",
+          "passed": true
+        },
+        {
+          "name": "章节挂在对应轮次下",
+          "passed": true
+        },
+        {
+          "name": "可返回普通模式并保留内容位置",
+          "passed": true
+        },
+        {
+          "name": "目录可收起以扩大书页",
+          "passed": true
+        },
+        {
+          "name": "书目来自现有会话列表",
+          "passed": true
+        },
+        {
+          "name": "不会覆盖ChatGPT原有草稿",
+          "passed": true
+        },
+        {
+          "name": "追问通过原生发送流程且只发送一次",
+          "passed": true
+        },
+        {
+          "name": "新回答单独接到书内且维持沉浸模式",
+          "passed": true
+        },
+        {
+          "name": "流式后续内容继续显示",
+          "passed": true
+        },
+        {
+          "name": "发送后书内输入框清空",
+          "passed": true
+        },
+        {
+          "name": "书目切换复用原会话链接",
+          "passed": true
+        },
+        {
+          "name": "切换会话后保持沉浸且不混合原回答",
+          "passed": true
+        },
+        {
+          "name": "切换会话不会发送消息",
+          "passed": true
+        },
+        {
+          "name": "没有遗留多个打开的阅读器",
+          "passed": true
+        }
+      ]
+    },
+    "legacyCatalog": {
+      "passed": 25,
+      "total": 25,
+      "results": [
+        {
+          "name": "统一目录包含会话、轮次、Markdown标题三级",
+          "passed": true
+        },
+        {
+          "name": "每一轮使用对应用户问题作为标题",
+          "passed": true
+        },
+        {
+          "name": "三级标题保留H1至H6的原始层级",
+          "passed": true
+        },
+        {
+          "name": "不同Markdown级别有递进缩进",
+          "passed": true
+        },
+        {
+          "name": "保留标准或ChatGPT语义标记的加粗",
+          "passed": true
+        },
+        {
+          "name": "保留斜体删除线行内代码和标记",
+          "passed": true
+        },
+        {
+          "name": "折叠会话不改变当前阅读页",
+          "passed": true
+        },
+        {
+          "name": "点击第二轮只阅读第二轮回答",
+          "passed": true
+        },
+        {
+          "name": "切换轮次保留沉浸状态",
+          "passed": true
+        },
+        {
+          "name": "点击其他轮次的标题可直接定位",
+          "passed": true
+        },
+        {
+          "name": "选中目录项能高亮对应标题",
+          "passed": true
+        },
+        {
+          "name": "加粗跨页后仍保留语义且文字完整",
+          "passed": true
+        },
+        {
+          "name": "样例包含可展开的原生项目行",
+          "passed": true
+        },
+        {
+          "name": "一级目录可继续加载更早历史",
+          "passed": true
+        },
+        {
+          "name": "项目展开及展开显示都纳入会话",
+          "passed": true
+        },
+        {
+          "name": "读取后恢复项目折叠和侧栏滚动",
+          "passed": true
+        },
+        {
+          "name": "历史加载提供真实读取数量",
+          "passed": true
+        },
+        {
+          "name": "停止加载也返回实际数量并恢复项目状态",
+          "passed": true
+        },
+        {
+          "name": "原网页虚拟化移除节点时当前书页仍保留",
+          "passed": true
+        },
+        {
+          "name": "目录可以重新打开本页内缓存的早期回答",
+          "passed": true
+        },
+        {
+          "name": "加载早期轮次后仍按对话先后排序",
+          "passed": true
+        },
+        {
+          "name": "加载早期轮次不打断当前书页",
+          "passed": true
+        },
+        {
+          "name": "项目和普通侧栏的同一会话去重",
+          "passed": true
+        },
+        {
+          "name": "目录加载不会发送ChatGPT消息",
+          "passed": true
+        },
+        {
+          "name": "退出后重新选择该轮会恢复书页位置",
+          "passed": true
+        }
+      ]
+    },
+    "modern": {
+      "passed": 23,
+      "total": 23,
+      "results": [
+        {
+          "name": "固定入口在任意位置可用",
+          "passed": true
+        },
+        {
+          "name": "回答开头不再添加入口",
+          "passed": true
+        },
+        {
+          "name": "仅隐藏当前正文",
+          "passed": true
+        },
+        {
+          "name": "保留原操作区与输入框",
+          "passed": true
+        },
+        {
+          "name": "长文确实被分成多页",
+          "passed": true
+        },
+        {
+          "name": "每页无正文垂直截断",
+          "passed": true
+        },
+        {
+          "name": "所有正文按顺序保留且没有重复",
+          "passed": true
+        },
+        {
+          "name": "表格36行依序跨页且不丢失",
+          "passed": true
+        },
+        {
+          "name": "代码首尾及长行保留",
+          "passed": true
+        },
+        {
+          "name": "代码逐字符保留空格和换行",
+          "passed": true
+        },
+        {
+          "name": "没有残留代码复制按钮",
+          "passed": true
+        },
+        {
+          "name": "方向键向前翻页",
+          "passed": true
+        },
+        {
+          "name": "输入框方向键不被拦截",
+          "passed": true
+        },
+        {
+          "name": "单页切换",
+          "passed": true
+        },
+        {
+          "name": "字号设置生效",
+          "passed": true
+        },
+        {
+          "name": "仅保存排版设置",
+          "passed": true
+        },
+        {
+          "name": "夜间纸张设置",
+          "passed": true
+        },
+        {
+          "name": "原回答变化提示刷新",
+          "passed": true
+        },
+        {
+          "name": "手动更新关闭提示",
+          "passed": true
+        },
+        {
+          "name": "退出精确恢复正文原样及样式",
+          "passed": true
+        },
+        {
+          "name": "退出后固定入口仍可用",
+          "passed": true
+        },
+        {
+          "name": "切换回答时单独阅读且不混合正文",
+          "passed": true
+        },
+        {
+          "name": "新回答自动出现入口",
+          "passed": true
+        }
+      ]
+    },
+    "modernProgress": {
+      "passed": 12,
+      "total": 12,
+      "results": [
+        {
+          "name": "从长文中段打开，当前文字位于书页内",
+          "passed": true
+        },
+        {
+          "name": "没有跳回第一页",
+          "passed": true
+        },
+        {
+          "name": "界面无副标题、常驻说明或重复页码",
+          "passed": true
+        },
+        {
+          "name": "原地退出回到相同文字附近",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以从当前位置开启",
+          "passed": true
+        },
+        {
+          "name": "开启后可继续向后阅读",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以退出模式",
+          "passed": true
+        },
+        {
+          "name": "翻页后退出保留新的进度",
+          "passed": true
+        },
+        {
+          "name": "再次开启仍在刚才阅读的内容附近",
+          "passed": true
+        },
+        {
+          "name": "识别真实页面采用的新结构",
+          "passed": true
+        },
+        {
+          "name": "保留正文内可点击实体的文字",
+          "passed": true
+        },
+        {
+          "name": "连续流式更新也能及时识别回答",
+          "passed": true
+        }
+      ]
+    },
+    "modernImmersive": {
+      "passed": 21,
+      "total": 21,
+      "results": [
+        {
+          "name": "普通模式占据大部分主内容区",
+          "passed": true
+        },
+        {
+          "name": "追问框位于书页内部",
+          "passed": true
+        },
+        {
+          "name": "保留原生输入框节点",
+          "passed": true
+        },
+        {
+          "name": "沉浸模式覆盖整个网页",
+          "passed": true
+        },
+        {
+          "name": "沉浸目录默认可见",
+          "passed": true
+        },
+        {
+          "name": "沉浸模式提供对话框语义",
+          "passed": true
+        },
+        {
+          "name": "当前回答的章节可导航",
+          "passed": true
+        },
+        {
+          "name": "点击章节定位到对应书页",
+          "passed": true
+        },
+        {
+          "name": "章节挂在对应轮次下",
+          "passed": true
+        },
+        {
+          "name": "可返回普通模式并保留内容位置",
+          "passed": true
+        },
+        {
+          "name": "目录可收起以扩大书页",
+          "passed": true
+        },
+        {
+          "name": "书目来自现有会话列表",
+          "passed": true
+        },
+        {
+          "name": "不会覆盖ChatGPT原有草稿",
+          "passed": true
+        },
+        {
+          "name": "追问通过原生发送流程且只发送一次",
+          "passed": true
+        },
+        {
+          "name": "新回答单独接到书内且维持沉浸模式",
+          "passed": true
+        },
+        {
+          "name": "流式后续内容继续显示",
+          "passed": true
+        },
+        {
+          "name": "发送后书内输入框清空",
+          "passed": true
+        },
+        {
+          "name": "书目切换复用原会话链接",
+          "passed": true
+        },
+        {
+          "name": "切换会话后保持沉浸且不混合原回答",
+          "passed": true
+        },
+        {
+          "name": "切换会话不会发送消息",
+          "passed": true
+        },
+        {
+          "name": "没有遗留多个打开的阅读器",
+          "passed": true
+        }
+      ]
+    },
+    "modernCatalog": {
+      "passed": 25,
+      "total": 25,
+      "results": [
+        {
+          "name": "统一目录包含会话、轮次、Markdown标题三级",
+          "passed": true
+        },
+        {
+          "name": "每一轮使用对应用户问题作为标题",
+          "passed": true
+        },
+        {
+          "name": "三级标题保留H1至H6的原始层级",
+          "passed": true
+        },
+        {
+          "name": "不同Markdown级别有递进缩进",
+          "passed": true
+        },
+        {
+          "name": "保留标准或ChatGPT语义标记的加粗",
+          "passed": true
+        },
+        {
+          "name": "保留斜体删除线行内代码和标记",
+          "passed": true
+        },
+        {
+          "name": "折叠会话不改变当前阅读页",
+          "passed": true
+        },
+        {
+          "name": "点击第二轮只阅读第二轮回答",
+          "passed": true
+        },
+        {
+          "name": "切换轮次保留沉浸状态",
+          "passed": true
+        },
+        {
+          "name": "点击其他轮次的标题可直接定位",
+          "passed": true
+        },
+        {
+          "name": "选中目录项能高亮对应标题",
+          "passed": true
+        },
+        {
+          "name": "加粗跨页后仍保留语义且文字完整",
+          "passed": true
+        },
+        {
+          "name": "样例包含可展开的原生项目行",
+          "passed": true
+        },
+        {
+          "name": "一级目录可继续加载更早历史",
+          "passed": true
+        },
+        {
+          "name": "项目展开及展开显示都纳入会话",
+          "passed": true
+        },
+        {
+          "name": "读取后恢复项目折叠和侧栏滚动",
+          "passed": true
+        },
+        {
+          "name": "历史加载提供真实读取数量",
+          "passed": true
+        },
+        {
+          "name": "停止加载也返回实际数量并恢复项目状态",
+          "passed": true
+        },
+        {
+          "name": "原网页虚拟化移除节点时当前书页仍保留",
+          "passed": true
+        },
+        {
+          "name": "目录可以重新打开本页内缓存的早期回答",
+          "passed": true
+        },
+        {
+          "name": "加载早期轮次后仍按对话先后排序",
+          "passed": true
+        },
+        {
+          "name": "加载早期轮次不打断当前书页",
+          "passed": true
+        },
+        {
+          "name": "项目和普通侧栏的同一会话去重",
+          "passed": true
+        },
+        {
+          "name": "目录加载不会发送ChatGPT消息",
+          "passed": true
+        },
+        {
+          "name": "退出后重新选择该轮会恢复书页位置",
+          "passed": true
+        }
+      ]
+    },
+    "wide": {
+      "viewport": 1440,
+      "passed": 11,
+      "total": 11,
+      "results": [
+        {
+          "name": "阅读器位于主内容区内",
+          "passed": true
+        },
+        {
+          "name": "窄窗口自动单页",
+          "passed": true
+        },
+        {
+          "name": "书内输入框与翻页控件互不遮挡",
+          "passed": true
+        },
+        {
+          "name": "排版面板不推移书页与翻页控件",
+          "passed": true
+        },
+        {
+          "name": "翻页不移动网页",
+          "passed": true
+        },
+        {
+          "name": "图片整体适配书页",
+          "passed": true
+        },
+        {
+          "name": "图片可放大",
+          "passed": true
+        },
+        {
+          "name": "图片没有丢失",
+          "passed": true
+        },
+        {
+          "name": "提取内容移除可执行属性与脚本",
+          "passed": true
+        },
+        {
+          "name": "跨行超大表格保留结构并有局部滚动",
+          "passed": true
+        },
+        {
+          "name": "表格尾部保留为表格",
+          "passed": true
+        }
+      ]
+    },
+    "narrow": {
+      "viewport": 1000,
+      "passed": 11,
+      "total": 11,
+      "results": [
+        {
+          "name": "阅读器位于主内容区内",
+          "passed": true
+        },
+        {
+          "name": "窄窗口自动单页",
+          "passed": true
+        },
+        {
+          "name": "书内输入框与翻页控件互不遮挡",
+          "passed": true
+        },
+        {
+          "name": "排版面板不推移书页与翻页控件",
+          "passed": true
+        },
+        {
+          "name": "翻页不移动网页",
+          "passed": true
+        },
+        {
+          "name": "图片整体适配书页",
+          "passed": true
+        },
+        {
+          "name": "图片可放大",
+          "passed": true
+        },
+        {
+          "name": "图片没有丢失",
+          "passed": true
+        },
+        {
+          "name": "提取内容移除可执行属性与脚本",
+          "passed": true
+        },
+        {
+          "name": "跨行超大表格保留结构并有局部滚动",
+          "passed": true
+        },
+        {
+          "name": "表格尾部保留为表格",
+          "passed": true
+        }
+      ]
+    },
+    "narrowImmersive": {
+      "passed": 21,
+      "total": 21,
+      "results": [
+        {
+          "name": "普通模式占据大部分主内容区",
+          "passed": true
+        },
+        {
+          "name": "追问框位于书页内部",
+          "passed": true
+        },
+        {
+          "name": "保留原生输入框节点",
+          "passed": true
+        },
+        {
+          "name": "沉浸模式覆盖整个网页",
+          "passed": true
+        },
+        {
+          "name": "沉浸目录默认可见",
+          "passed": true
+        },
+        {
+          "name": "沉浸模式提供对话框语义",
+          "passed": true
+        },
+        {
+          "name": "当前回答的章节可导航",
+          "passed": true
+        },
+        {
+          "name": "点击章节定位到对应书页",
+          "passed": true
+        },
+        {
+          "name": "章节挂在对应轮次下",
+          "passed": true
+        },
+        {
+          "name": "可返回普通模式并保留内容位置",
+          "passed": true
+        },
+        {
+          "name": "目录可收起以扩大书页",
+          "passed": true
+        },
+        {
+          "name": "书目来自现有会话列表",
+          "passed": true
+        },
+        {
+          "name": "不会覆盖ChatGPT原有草稿",
+          "passed": true
+        },
+        {
+          "name": "追问通过原生发送流程且只发送一次",
+          "passed": true
+        },
+        {
+          "name": "新回答单独接到书内且维持沉浸模式",
+          "passed": true
+        },
+        {
+          "name": "流式后续内容继续显示",
+          "passed": true
+        },
+        {
+          "name": "发送后书内输入框清空",
+          "passed": true
+        },
+        {
+          "name": "书目切换复用原会话链接",
+          "passed": true
+        },
+        {
+          "name": "切换会话后保持沉浸且不混合原回答",
+          "passed": true
+        },
+        {
+          "name": "切换会话不会发送消息",
+          "passed": true
+        },
+        {
+          "name": "没有遗留多个打开的阅读器",
+          "passed": true
+        }
+      ]
+    },
+    "narrowCatalog": {
+      "passed": 25,
+      "total": 25,
+      "results": [
+        {
+          "name": "统一目录包含会话、轮次、Markdown标题三级",
+          "passed": true
+        },
+        {
+          "name": "每一轮使用对应用户问题作为标题",
+          "passed": true
+        },
+        {
+          "name": "三级标题保留H1至H6的原始层级",
+          "passed": true
+        },
+        {
+          "name": "不同Markdown级别有递进缩进",
+          "passed": true
+        },
+        {
+          "name": "保留标准或ChatGPT语义标记的加粗",
+          "passed": true
+        },
+        {
+          "name": "保留斜体删除线行内代码和标记",
+          "passed": true
+        },
+        {
+          "name": "折叠会话不改变当前阅读页",
+          "passed": true
+        },
+        {
+          "name": "点击第二轮只阅读第二轮回答",
+          "passed": true
+        },
+        {
+          "name": "切换轮次保留沉浸状态",
+          "passed": true
+        },
+        {
+          "name": "点击其他轮次的标题可直接定位",
+          "passed": true
+        },
+        {
+          "name": "选中目录项能高亮对应标题",
+          "passed": true
+        },
+        {
+          "name": "加粗跨页后仍保留语义且文字完整",
+          "passed": true
+        },
+        {
+          "name": "样例包含可展开的原生项目行",
+          "passed": true
+        },
+        {
+          "name": "一级目录可继续加载更早历史",
+          "passed": true
+        },
+        {
+          "name": "项目展开及展开显示都纳入会话",
+          "passed": true
+        },
+        {
+          "name": "读取后恢复项目折叠和侧栏滚动",
+          "passed": true
+        },
+        {
+          "name": "历史加载提供真实读取数量",
+          "passed": true
+        },
+        {
+          "name": "停止加载也返回实际数量并恢复项目状态",
+          "passed": true
+        },
+        {
+          "name": "原网页虚拟化移除节点时当前书页仍保留",
+          "passed": true
+        },
+        {
+          "name": "目录可以重新打开本页内缓存的早期回答",
+          "passed": true
+        },
+        {
+          "name": "加载早期轮次后仍按对话先后排序",
+          "passed": true
+        },
+        {
+          "name": "加载早期轮次不打断当前书页",
+          "passed": true
+        },
+        {
+          "name": "项目和普通侧栏的同一会话去重",
+          "passed": true
+        },
+        {
+          "name": "目录加载不会发送ChatGPT消息",
+          "passed": true
+        },
+        {
+          "name": "退出后重新选择该轮会恢复书页位置",
+          "passed": true
+        }
+      ]
+    },
+    "navigationRestore": {
+      "passed": 4,
+      "total": 4,
+      "results": [
+        {
+          "name": "跨页面恢复指定早期轮次",
+          "passed": true
+        },
+        {
+          "name": "定向恢复保留沉浸模式",
+          "passed": true
+        },
+        {
+          "name": "未找到轮次时不误打开其他回答",
+          "passed": true
+        },
+        {
+          "name": "缺失轮次有明确反馈",
+          "passed": true
+        }
+      ]
+    }
+  }
+}

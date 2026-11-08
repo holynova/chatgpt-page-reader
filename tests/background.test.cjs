@@ -20,7 +20,7 @@ test('已加载的回答由工具栏直接启动，无重复注入',async()=>{
 test('安装前打开的页面自动补注入后启动',async()=>{
   const f=fixture([new Error('No receiving end'),{ok:true}]);await f.click({id:12,url:'https://chatgpt.com/c/test'});
   const inject=f.calls.find(c=>c[0]==='inject')[1];assert.equal(inject.target.tabId,12);
-  assert.equal(inject.files.join(','),'styles.js,paginator.js,content.js');assert.equal(f.calls.filter(c=>c[0]==='send').length,2);
+  assert.equal(inject.files.join(','),'styles.js,paginator.js,composer.js,catalog.js,content.js');assert.equal(f.calls.filter(c=>c[0]==='send').length,2);
 });
 test('非ChatGPT域名不注入，即使点击工具栏已授予activeTab',async()=>{
   for(const url of ['https://example.com/','https://chatgpt.com.evil.example/','file:///tmp/chatgpt.com']){

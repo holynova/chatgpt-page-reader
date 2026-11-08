@@ -17,11 +17,11 @@ chrome.action.onClicked.addListener(async tab => {
     } catch {
       // Tabs opened before installation do not yet have a content script.
       await chrome.scripting.executeScript({
-        target:{tabId:tab.id},files:['styles.js','paginator.js','content.js']
+        target:{tabId:tab.id},files:['styles.js','paginator.js','composer.js','catalog.js','content.js']
       });
       result = await chrome.tabs.sendMessage(tab.id,{type:'book-reader:open'});
     }
-    await status(result?.ok ? '' : '没有找到回答，请打开一个 ChatGPT 对话后重试');
+    await status(result?.ok ? '' : result?.error || '没有找到回答，请打开一个 ChatGPT 对话后重试');
   } catch {
     await status('无法启动，请刷新 ChatGPT 页面后重试');
   }

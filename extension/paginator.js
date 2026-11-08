@@ -1,6 +1,7 @@
 (() => {
   'use strict';
   const BLOCKS = new Set(['P','H1','H2','H3','H4','H5','H6','UL','OL','BLOCKQUOTE','PRE','TABLE','FIGURE','HR','IMG','MATH','DL']);
+  const spanFormats = new WeakMap();
 
   function extract(source) {
     const root = source.cloneNode(true);
@@ -9,6 +10,25 @@
     const clonedTexts = document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
     let originalText, clonedText;
     while ((originalText = originalTexts.nextNode()) && (clonedText = clonedTexts.nextNode())) origins.set(clonedText,originalText);
+    // The current ChatGPT renderer uses styled spans for Markdown emphasis.
+    const sourceSpans = source.querySelectorAll('span');
+    root.querySelectorAll('span').forEach((node,index) => {
+      const original = sourceSpans[index]; let format = spanFormats.get(original);
+      if (original?.isConnected) {
+        const style = getComputedStyle(original);
+        format = {weight:style.fontWeight,italic:style.fontStyle==='italic',strike:style.textDecorationLine.includes('line-through')};
+        spanFormats.set(original,format);
+      }
+      const weight = format?.weight || node.style.fontWeight;
+      const tags = [];
+      if (node.hasAttribute('data-d-default-strong') || ['bold','semibold'].includes(node.getAttribute('data-d-weight')) || weight === 'bold' || Number(weight) >= 600) tags.push('strong');
+      if (format?.italic || node.style.fontStyle === 'italic') tags.push('em');
+      if (format?.strike || node.style.textDecorationLine.includes('line-through')) tags.push('del');
+      if (!tags.length) return;
+      const outer = document.createElement(tags[0]); let inner = outer;
+      for (const tag of tags.slice(1)) { const child = document.createElement(tag); inner.append(child); inner = child; }
+      inner.append(...node.childNodes); node.replaceWith(outer);
+    });
     root.querySelectorAll('button,[role="button"]').forEach(n => {
       // ChatGPT renders inline entity names as buttons; their text is part of the answer.
       if (n.closest('p,li,h1,h2,h3,h4,th,td') && !n.closest('pre')) n.replaceWith(...n.childNodes);

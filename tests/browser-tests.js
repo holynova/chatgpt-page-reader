@@ -20,7 +20,7 @@ globalThis.runReaderTests = async function () {
   const originalStyle=source.getAttribute('style');
   await openFor(first);
   check('仅隐藏当前正文',getComputedStyle(source).display==='none' && getComputedStyle(second.querySelector('.markdown,[data-markdown-text-style="assistant-message"]')).display!=='none');
-  check('保留原操作区与输入框',!!document.querySelector('#native-actions') && !!document.querySelector('.composer input'));
+  check('保留原操作区与输入框',!!document.querySelector('#native-actions') && !!document.querySelector('.composer textarea,.composer [contenteditable=true]'));
   const pageText=[];const overflow=[];const pageRows=[];let turns=0;
   do {
     for(const paper of root.querySelectorAll('.spread .paper-content')) {
@@ -43,7 +43,7 @@ globalThis.runReaderTests = async function () {
   const before=root.querySelector('.position').textContent;
   document.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true,cancelable:true}));
   check('方向键向前翻页',root.querySelector('.position').textContent!==before);
-  const input=document.querySelector('.composer input'); input.focus();
+  const input=document.querySelector('.composer textarea,.composer [contenteditable=true]'); input.focus();
   const stable=root.querySelector('.position').textContent;
   input.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true,cancelable:true}));
   check('输入框方向键不被拦截',root.querySelector('.position').textContent===stable);
@@ -63,10 +63,9 @@ globalThis.runReaderTests = async function () {
   check('退出精确恢复正文原样及样式',source.getAttribute('style')===originalStyle && source.innerHTML===original+update.outerHTML);
   check('退出后固定入口仍可用',!!entry.querySelector('.launch') && !root.querySelector('.reader'));
   update.remove();
-  // Single-answer controllers must stay independent even when both are open.
-  await openFor(first);await openFor(second);
-  root.querySelector('[data-action=close]').click();
-  check('多个阅读器互不关闭',!!secondRoot.querySelector('.reader') && !root.querySelector('.reader'));
+  // The workspace displays exactly one answer at a time.
+  await openFor(first);root.querySelector('[data-action=close]').click();await openFor(second);
+  check('切换回答时单独阅读且不混合正文',!!secondRoot.querySelector('.reader') && !root.querySelector('.reader') && !secondRoot.querySelector('.spread').textContent.includes('让阅读，回到'));
   secondRoot.querySelector('[data-action=close]').click();
   // A response arriving later must gain its own launcher.
   const dynamic=document.createElement('div');dynamic.dataset.messageAuthorRole='assistant';dynamic.innerHTML='<div class="markdown"><p>新回答</p></div>';second.after(dynamic);await wait();
