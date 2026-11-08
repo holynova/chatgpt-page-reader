@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+artifacts/unpacked/
+
+.impeccable/
+artifacts/*.zip
+artifacts/weread-reference.png
+artifacts/test-state.png

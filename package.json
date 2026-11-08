@@ -1,0 +1,10 @@
+{
+  "name": "chatgpt-page-reader",
+  "private": true,
+  "version": "0.1.1",
+  "scripts": {
+    "check": "node --check extension/background.js && node --check extension/content.js && node --check extension/paginator.js && node --check extension/styles.js && node --test tests/background.test.cjs",
+    "demo": "python3 -m http.server 8766 --bind 127.0.0.1",
+    "package": "python3 scripts/package.py"
+  }
+}

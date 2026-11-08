@@ -1,0 +1,412 @@
+{
+  "version": "0.1.1",
+  "environment": "Local Chromium fixture; actual ChatGPT DOM inspected read-only, fixed entry verified by user",
+  "suites": {
+    "legacy": {
+      "passed": 23,
+      "total": 23,
+      "results": [
+        {
+          "name": "固定入口在任意位置可用",
+          "passed": true
+        },
+        {
+          "name": "回答开头不再添加入口",
+          "passed": true
+        },
+        {
+          "name": "仅隐藏当前正文",
+          "passed": true
+        },
+        {
+          "name": "保留原操作区与输入框",
+          "passed": true
+        },
+        {
+          "name": "长文确实被分成多页",
+          "passed": true
+        },
+        {
+          "name": "每页无正文垂直截断",
+          "passed": true
+        },
+        {
+          "name": "所有正文按顺序保留且没有重复",
+          "passed": true
+        },
+        {
+          "name": "表格36行依序跨页且不丢失",
+          "passed": true
+        },
+        {
+          "name": "代码首尾及长行保留",
+          "passed": true
+        },
+        {
+          "name": "代码逐字符保留空格和换行",
+          "passed": true
+        },
+        {
+          "name": "没有残留代码复制按钮",
+          "passed": true
+        },
+        {
+          "name": "方向键向前翻页",
+          "passed": true
+        },
+        {
+          "name": "输入框方向键不被拦截",
+          "passed": true
+        },
+        {
+          "name": "单页切换",
+          "passed": true
+        },
+        {
+          "name": "字号设置生效",
+          "passed": true
+        },
+        {
+          "name": "仅保存排版设置",
+          "passed": true
+        },
+        {
+          "name": "夜间纸张设置",
+          "passed": true
+        },
+        {
+          "name": "原回答变化提示刷新",
+          "passed": true
+        },
+        {
+          "name": "手动更新关闭提示",
+          "passed": true
+        },
+        {
+          "name": "退出精确恢复正文原样及样式",
+          "passed": true
+        },
+        {
+          "name": "退出后固定入口仍可用",
+          "passed": true
+        },
+        {
+          "name": "多个阅读器互不关闭",
+          "passed": true
+        },
+        {
+          "name": "新回答自动出现入口",
+          "passed": true
+        }
+      ]
+    },
+    "legacyProgress": {
+      "passed": 12,
+      "total": 12,
+      "results": [
+        {
+          "name": "从长文中段打开，当前文字位于书页内",
+          "passed": true
+        },
+        {
+          "name": "没有跳回第一页",
+          "passed": true
+        },
+        {
+          "name": "界面无副标题、常驻说明或重复页码",
+          "passed": true
+        },
+        {
+          "name": "原地退出回到相同文字附近",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以从当前位置开启",
+          "passed": true
+        },
+        {
+          "name": "开启后可继续向后阅读",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以退出模式",
+          "passed": true
+        },
+        {
+          "name": "翻页后退出保留新的进度",
+          "passed": true
+        },
+        {
+          "name": "再次开启仍在刚才阅读的内容附近",
+          "passed": true
+        },
+        {
+          "name": "识别真实页面采用的新结构",
+          "passed": true
+        },
+        {
+          "name": "保留正文内可点击实体的文字",
+          "passed": true
+        },
+        {
+          "name": "连续流式更新也能及时识别回答",
+          "passed": true
+        }
+      ]
+    },
+    "modern": {
+      "passed": 23,
+      "total": 23,
+      "results": [
+        {
+          "name": "固定入口在任意位置可用",
+          "passed": true
+        },
+        {
+          "name": "回答开头不再添加入口",
+          "passed": true
+        },
+        {
+          "name": "仅隐藏当前正文",
+          "passed": true
+        },
+        {
+          "name": "保留原操作区与输入框",
+          "passed": true
+        },
+        {
+          "name": "长文确实被分成多页",
+          "passed": true
+        },
+        {
+          "name": "每页无正文垂直截断",
+          "passed": true
+        },
+        {
+          "name": "所有正文按顺序保留且没有重复",
+          "passed": true
+        },
+        {
+          "name": "表格36行依序跨页且不丢失",
+          "passed": true
+        },
+        {
+          "name": "代码首尾及长行保留",
+          "passed": true
+        },
+        {
+          "name": "代码逐字符保留空格和换行",
+          "passed": true
+        },
+        {
+          "name": "没有残留代码复制按钮",
+          "passed": true
+        },
+        {
+          "name": "方向键向前翻页",
+          "passed": true
+        },
+        {
+          "name": "输入框方向键不被拦截",
+          "passed": true
+        },
+        {
+          "name": "单页切换",
+          "passed": true
+        },
+        {
+          "name": "字号设置生效",
+          "passed": true
+        },
+        {
+          "name": "仅保存排版设置",
+          "passed": true
+        },
+        {
+          "name": "夜间纸张设置",
+          "passed": true
+        },
+        {
+          "name": "原回答变化提示刷新",
+          "passed": true
+        },
+        {
+          "name": "手动更新关闭提示",
+          "passed": true
+        },
+        {
+          "name": "退出精确恢复正文原样及样式",
+          "passed": true
+        },
+        {
+          "name": "退出后固定入口仍可用",
+          "passed": true
+        },
+        {
+          "name": "多个阅读器互不关闭",
+          "passed": true
+        },
+        {
+          "name": "新回答自动出现入口",
+          "passed": true
+        }
+      ]
+    },
+    "modernProgress": {
+      "passed": 12,
+      "total": 12,
+      "results": [
+        {
+          "name": "从长文中段打开，当前文字位于书页内",
+          "passed": true
+        },
+        {
+          "name": "没有跳回第一页",
+          "passed": true
+        },
+        {
+          "name": "界面无副标题、常驻说明或重复页码",
+          "passed": true
+        },
+        {
+          "name": "原地退出回到相同文字附近",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以从当前位置开启",
+          "passed": true
+        },
+        {
+          "name": "开启后可继续向后阅读",
+          "passed": true
+        },
+        {
+          "name": "工具栏消息可以退出模式",
+          "passed": true
+        },
+        {
+          "name": "翻页后退出保留新的进度",
+          "passed": true
+        },
+        {
+          "name": "再次开启仍在刚才阅读的内容附近",
+          "passed": true
+        },
+        {
+          "name": "识别真实页面采用的新结构",
+          "passed": true
+        },
+        {
+          "name": "保留正文内可点击实体的文字",
+          "passed": true
+        },
+        {
+          "name": "连续流式更新也能及时识别回答",
+          "passed": true
+        }
+      ]
+    },
+    "wide": {
+      "viewport": 1440,
+      "passed": 11,
+      "total": 11,
+      "results": [
+        {
+          "name": "阅读器位于主内容区内",
+          "passed": true
+        },
+        {
+          "name": "窄窗口自动单页",
+          "passed": true
+        },
+        {
+          "name": "翻页控件不被输入框遮挡",
+          "passed": true
+        },
+        {
+          "name": "排版面板不推移书页与翻页控件",
+          "passed": true
+        },
+        {
+          "name": "翻页不移动网页",
+          "passed": true
+        },
+        {
+          "name": "图片整体适配书页",
+          "passed": true
+        },
+        {
+          "name": "图片可放大",
+          "passed": true
+        },
+        {
+          "name": "图片没有丢失",
+          "passed": true
+        },
+        {
+          "name": "提取内容移除可执行属性与脚本",
+          "passed": true
+        },
+        {
+          "name": "跨行超大表格保留结构并有局部滚动",
+          "passed": true
+        },
+        {
+          "name": "表格尾部保留为表格",
+          "passed": true
+        }
+      ]
+    },
+    "narrow": {
+      "viewport": 1000,
+      "passed": 11,
+      "total": 11,
+      "results": [
+        {
+          "name": "阅读器位于主内容区内",
+          "passed": true
+        },
+        {
+          "name": "窄窗口自动单页",
+          "passed": true
+        },
+        {
+          "name": "翻页控件不被输入框遮挡",
+          "passed": true
+        },
+        {
+          "name": "排版面板不推移书页与翻页控件",
+          "passed": true
+        },
+        {
+          "name": "翻页不移动网页",
+          "passed": true
+        },
+        {
+          "name": "图片整体适配书页",
+          "passed": true
+        },
+        {
+          "name": "图片可放大",
+          "passed": true
+        },
+        {
+          "name": "图片没有丢失",
+          "passed": true
+        },
+        {
+          "name": "提取内容移除可执行属性与脚本",
+          "passed": true
+        },
+        {
+          "name": "跨行超大表格保留结构并有局部滚动",
+          "passed": true
+        },
+        {
+          "name": "表格尾部保留为表格",
+          "passed": true
+        }
+      ]
+    }
+  }
+}

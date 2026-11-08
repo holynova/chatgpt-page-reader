@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "回答成书 · ChatGPT 分页阅读",
+  "version": "0.1.1",
+  "description": "将 ChatGPT 的单条回答在原位置排成书页，无动画翻页，支持单双页和阅读排版。",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "background": {"service_worker": "background.js"},
+  "action": {
+    "default_title": "分页阅读当前回答",
+    "default_icon": {"16":"icons/16.png","32":"icons/32.png"}
+  },
+  "icons": {"16":"icons/16.png","48":"icons/48.png","128":"icons/128.png"},
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+    "js": ["styles.js", "paginator.js", "content.js"],
+    "run_at": "document_idle"
+  }]
+}
