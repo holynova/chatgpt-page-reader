@@ -208,9 +208,9 @@
       const fields = [
         ['size','字号',14,28,1,'px'],['leading','行距',1.3,2.4,.05,''],
         ['font','字体',[['serif','衬线'],['sans','无衬线'],['mono','等宽']]],
-        ['theme','纸张',[['white','纯白'],['paper','暖纸'],['dark','夜间']]],
-        ['paragraph','段距',0,32,2,'px'],['margin','边距',16,64,2,'px'],
-        ['width','宽度',720,2560,40,'px'],['height','高度',400,1400,20,'px']
+        ['theme','主题',[['white','纯白'],['paper','暖纸'],['dark','夜间']]],
+        ['paragraph','段落间距',0,32,2,'px'],['margin','页边距',16,64,2,'px'],
+        ['width','书页宽度',720,2560,40,'px'],['height','书页高度',400,1400,20,'px']
       ];
       for (const [key,label,options,max,step,unit] of fields) {
         const wrapper = el(key==='font'?'div':'label',`setting ${key}-setting`); const caption = el('span',null,label); wrapper.append(caption);

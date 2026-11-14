@@ -1,6 +1,6 @@
 # 回答成书
 
-把 ChatGPT 网页中的**一条回答**，重新排成可翻页的书籍。适用于 PC Chrome，版本 0.4.0。
+把 ChatGPT 网页中的**一条回答**，重新排成可翻页的书籍。适用于 PC Chrome，版本 0.4.1。
 
 ![双页阅读，本地合成样例](../assets/readme/reading.png)
 
@@ -14,7 +14,7 @@
 
 选择项目内的 `extension` 文件夹。
 
-也可以将 `artifacts/chatgpt-page-reader-0.4.0.zip` 解压到一个固定位置，再选择解压后的目录加载。移动或删除已加载的文件夹，会影响扩展运行。
+也可以在 [Releases](https://github.com/holynova/chatgpt-page-reader/releases/latest) 下载扩展 ZIP，解压到一个固定位置，再选择解压后的目录加载。移动或删除已加载的文件夹，会影响扩展运行。
 
 ## 使用
 
