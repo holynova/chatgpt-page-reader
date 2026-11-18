@@ -1,9 +1,11 @@
+<p align="right"><a href="README.en.md">English</a></p>
+
 <p align="center">
   <img src="./assets/readme/hero.svg" width="100%" alt="回答成书 — 把 ChatGPT 的长回答，翻成一页一页的书：一本打开的双页书，右侧是目录、排版、追问、深色、沉浸圆形工具栏">
 </p>
 
 <p align="center">
-  <a href="https://github.com/holynova/chatgpt-page-reader/releases/latest">⬇ 下载扩展 Download</a>
+  <a href="https://github.com/holynova/chatgpt-page-reader/releases/latest">⬇ 下载扩展</a>
   ·
   <a href="docs/usage.md">使用说明</a>
   ·
@@ -18,9 +20,7 @@
 
 回答成书是一款 Chrome 扩展（Manifest V3）：把 ChatGPT 的长回答排成一页一页的书来读。单双页、无动画翻页，切换时定位到当前文字，各轮保留本标签页内的阅读位置；三级目录按会话、轮次、标题导航；还能在书内直接追问，新回答单独进入书页。
 
-Answer-to-Book is a Chrome extension (Manifest V3) that turns long ChatGPT answers into a paginated book. Single or double pages, no-flip animation, position preserved across switches; a three-level table of contents (conversation → turn → heading); and follow-up questions asked from inside the book, with each new answer opening on its own page.
-
-## 截图 / Screenshots
+## 截图
 
 <p align="center">
   <img src="./assets/readme/screenshot-reading.png" width="760" alt="白色双页书页与右侧浮动工具栏：让阅读回到一页之间，页码 1–2 / 4">
@@ -32,7 +32,7 @@ Answer-to-Book is a Chrome extension (Manifest V3) that turns long ChatGPT answe
 
 > 本地演示截图，运行与扩展相同的产品脚本。
 
-## 功能 / Features
+## 功能
 
 - **分页阅读**：单双页、无动画翻页；切换时定位到当前文字，各轮保留本标签页内的阅读位置；窗口不足以容纳双页时自动切换单页。
 - **三级目录**：会话 → 每轮提问 → 回答标题（H1–H6 层次）。普通历史与项目会话可继续加载，归档暂不读取；支持目录搜索、加载更早对话、单轮阅读。
@@ -41,7 +41,7 @@ Answer-to-Book is a Chrome extension (Manifest V3) that turns long ChatGPT answe
 - **沉浸模式**：随时切换，Escape 快捷退出；沉浸侧栏提供现有会话书目和当前回答章节。
 - **界面**：右侧工具栏依次是目录、排版、追问、深色、沉浸；目录和排版以覆盖面板打开，点击遮罩或按 Escape 收起。
 
-## 安装 / Install
+## 安装
 
 1. 在 [Releases](https://github.com/holynova/chatgpt-page-reader/releases/latest) 下载扩展 ZIP（最新版 v0.4.1），解压到固定文件夹。
 2. 在 Chrome 地址栏输入 `chrome://extensions`，开启右上角的「开发者模式」。
@@ -50,7 +50,7 @@ Answer-to-Book is a Chrome extension (Manifest V3) that turns long ChatGPT answe
 
 更新时替换文件，在扩展管理页点击「重新加载」，再刷新 ChatGPT。
 
-## 本地开发 / Development
+## 本地开发
 
 无需安装依赖。`extension/` 就是可加载的扩展目录。
 
@@ -64,7 +64,7 @@ npm run package   # 生成可分发的扩展 ZIP
 
 [完整使用说明](docs/usage.md) · [更新记录](CHANGELOG.md) · [浏览器检查记录](artifacts/test-results-v4.json)
 
-## 技术 / Tech
+## 技术
 
 - Manifest V3，零依赖，纯原生 JS；内容脚本只匹配 `chatgpt.com` 与 `chat.openai.com` 两个域名，工具栏注入时再次检查域名。
 - 请求的权限只有 `storage`、`activeTab`、`scripting` 三项。
@@ -82,23 +82,13 @@ extension/
 tests/                 Node 测试 + 浏览器回归（demo.html 本地演示）
 ```
 
-## 范围与数据 / Scope & Privacy
+## 范围与数据
 
 - 面向 PC Chrome 的 ChatGPT 网页回答；Canvas、交互工具卡片、附件和思考过程不在正文分页范围内。
 - 正文、目录与书页位置只在当前标签页内处理；排版偏好存于浏览器本地，不跨设备同步。
 - 追问交给 ChatGPT 原生输入和发送流程。本扩展没有自己的服务端、分析统计或额外模型 API。
 - ChatGPT 改版可能需要适配。目录加载、追问和分页有本地样例回归检查；不声称覆盖所有真实回答布局。
 
-## English
-
-**Answer-to-Book** is a Chrome extension (Manifest V3) that lays out long ChatGPT answers as a book you can page through — single or double pages, no flip animation, reading position kept per turn within the tab.
-
-- **Three-level contents**: conversation → turn → Markdown heading (H1–H6). Regular and project conversations keep loading; archived ones are not read. Searchable, with load-earlier-turns and single-turn reading.
-- **Ask inside the book**: expand the composer and send through ChatGPT's native flow; the new answer opens on its own page and streams in. Enter to send, Shift+Enter for a new line; an existing draft in the native box is never overwritten.
-- **Typography**: font, size, line height, margins, and light/dark themes; Markdown bold, lists, quotes, code, and tables preserved. System fonts only.
-- **Install**: download the ZIP from [Releases](https://github.com/holynova/chatgpt-page-reader/releases/latest), enable Developer Mode at `chrome://extensions`, and load the unpacked folder.
-- **Privacy**: content, contents, and page position stay in the current tab; typography preferences live in browser-local storage. No server, no analytics, no extra model API. Permissions: `storage`, `activeTab`, `scripting`.
-
-## 许可 / License
+## 许可
 
 [MIT](LICENSE) © 2026 holynova
